@@ -6,6 +6,9 @@ using System.Linq;
 
 public class DynamicCollisionTestManager : MonoBehaviour
 {
+    [Header("random seed for reproducibility")]
+    public int randomSeed = 12345;
+
     [Header("prefab to test (convex or compound)")]
     public GameObject testPrefab;
 
@@ -15,8 +18,8 @@ public class DynamicCollisionTestManager : MonoBehaviour
     public int spawnCountIncrement = 300;
 
     [Header("spawn area bounds")]
-    [SerializeField] private Vector3 spawnAreaMin = new Vector3(-10f, 1f, -10f);
-    [SerializeField] private Vector3 spawnAreaMax = new Vector3(10f, 10f, 10f);
+    [SerializeField] private Vector3 spawnAreaMin = new Vector3(-100f, -100f, -100f);
+    [SerializeField] private Vector3 spawnAreaMax = new Vector3(100f, 100f, 100f);
 
     [Header("timing (in seconds)")]
     [SerializeField] private float warmupDuration = 5f;
@@ -36,32 +39,33 @@ public class DynamicCollisionTestManager : MonoBehaviour
     {
         // prepare the csv path
         csvFilePath = Path.Combine(Application.persistentDataPath, csvFileName);
-        StartCoroutine(RunAllTests());
+        StartCoroutine(RunTests());
     }
 
-    private IEnumerator RunAllTests()
+    private IEnumerator RunTests()
     {
-        for (int currentCount = minimumSpawnCount;
-                 currentCount <= maximumSpawnCount;
-                 currentCount += spawnCountIncrement)
+        for (int currentCount = minimumSpawnCount; currentCount <= maximumSpawnCount; currentCount += spawnCountIncrement)
         {
-            SpawnTestObjects(currentCount);
+            Random.InitState(randomSeed);
 
-            // warm-up period (no logging)
+            SpawnTestObjects(currentCount);
+            Debug.Log("starting test for " + currentCount + " instances");
+
+            // warming up
             yield return new WaitForSeconds(warmupDuration);
 
-            // clear previous data
+            // clear any data
             frameTimeList.Clear();
             collisionCountList.Clear();
             float elapsedTime = 0f;
 
-            // measurement loop
+            // measure
             while (elapsedTime < measurementDuration)
             {
                 float deltaTime = Time.deltaTime;
                 frameTimeList.Add(deltaTime);
 
-                // record all collisions logged this frame
+                // record all collisions logged in this frame
                 collisionCountList.Add(CollisionLogger.globalCollisionCount);
                 CollisionLogger.globalCollisionCount = 0;
 
@@ -69,16 +73,17 @@ public class DynamicCollisionTestManager : MonoBehaviour
                 yield return null;
             }
 
-            // compute and write results
-            float averageFps = 1f / frameTimeList.Average();
+            // write results
+            float averageDeltaTime = frameTimeList.Average();
             int totalChecks = collisionCountList.Sum();
-            WriteCsvLine(testPrefab.name, currentCount, averageFps, totalChecks);
+            WriteCsvLine(testPrefab.name, currentCount, averageDeltaTime, totalChecks);
+            Debug.Log("logged result for " + currentCount + " instances");
 
             CleanupTestObjects();
             yield return null;
         }
 
-        Debug.Log("all dynamic-prefab tests complete. results at: " + csvFilePath);
+        Debug.Log("all dynamic tests complete. results at: " + csvFilePath);
     }
 
     private void SpawnTestObjects(int numberToSpawn)
@@ -113,22 +118,19 @@ public class DynamicCollisionTestManager : MonoBehaviour
         spawnedObjects.Clear();
     }
 
-    private void WriteCsvLine(string colliderType, int spawnCount, float averageFps, int totalChecks)
+    private void WriteCsvLine(string testCase, int spawnCount, float averageDeltaTime, int totalChecks)
     {
         if (!csvHeaderWritten)
         {
-            string headerLine = "colliderType,spawnCount,averageFps,totalCollisionChecks";
+            string headerLine = "testCase,spawnCount,averageDeltaTime,totalCollisionChecks";
             File.WriteAllText(csvFilePath, headerLine + "\n");
             csvHeaderWritten = true;
         }
 
-        string dataLine = string.Format(
-            "{0},{1},{2:F1},{3}\n",
-            colliderType,
-            spawnCount,
-            averageFps,
-            totalChecks
-        );
+        string dataLine = testCase + ","
+                        + spawnCount + ","
+                        + averageDeltaTime.ToString("F4") + ","
+                        + totalChecks + "\n";
         File.AppendAllText(csvFilePath, dataLine);
     }
 }

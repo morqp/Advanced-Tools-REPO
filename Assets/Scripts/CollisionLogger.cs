@@ -7,7 +7,7 @@ public class CollisionLogger : MonoBehaviour
 
     void OnCollisionStay(Collision collisionInfo)
     {
-        // collisionInfo.contactCount is the number of contact points in this collision :contentReference[oaicite:0]{index=0}
+        // collisionInfo.contactCount is the nr of contact points in this collision
         globalCollisionCount += collisionInfo.contactCount;
     }
 }
