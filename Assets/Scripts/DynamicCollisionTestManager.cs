@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEngine.VFX;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class DynamicCollisionTestManager : MonoBehaviour
 {
@@ -14,12 +16,15 @@ public class DynamicCollisionTestManager : MonoBehaviour
 
     [Header("spawn count settings")]
     public int minimumSpawnCount = 200;
-    public int maximumSpawnCount = 1200;
-    public int spawnCountIncrement = 300;
+    public int maximumSpawnCount = 5000;
+    public int spawnCountIncrement = 250;
+
+    [Header("extra big jumps")]
+    public int[] extraSpawnCounts = { 6000, 7000, 8000, 9000, 10000 };
 
     [Header("spawn area bounds")]
-    [SerializeField] private Vector3 spawnAreaMin = new Vector3(-100f, -100f, -100f);
-    [SerializeField] private Vector3 spawnAreaMax = new Vector3(100f, 100f, 100f);
+    [SerializeField] private Vector3 spawnAreaMin = new Vector3(-10f, 1f, -10f);
+    [SerializeField] private Vector3 spawnAreaMax = new Vector3(10f, 10f, 10f);
 
     [Header("timing (in seconds)")]
     [SerializeField] private float warmupDuration = 5f;
@@ -34,17 +39,34 @@ public class DynamicCollisionTestManager : MonoBehaviour
 
     private bool csvHeaderWritten = false;
     private string csvFilePath;
+    private List<int> spawnCountList;
 
     void Start()
     {
         // prepare the csv path
         csvFilePath = Path.Combine(Application.persistentDataPath, csvFileName);
+
+        //make spawn count list by adding the extra steps to the increments
+        spawnCountList = new List<int>();
+        for (int i = minimumSpawnCount; i <= maximumSpawnCount; i+=spawnCountIncrement)
+        {
+            spawnCountList.Add(i);
+        }
+        foreach (int extraincrements in extraSpawnCounts)
+        {
+            if (!spawnCountList.Contains(extraincrements) && extraincrements > maximumSpawnCount)
+            {
+                spawnCountList.Add(extraincrements);
+            }
+        }
+
+       
         StartCoroutine(RunTests());
     }
 
     private IEnumerator RunTests()
     {
-        for (int currentCount = minimumSpawnCount; currentCount <= maximumSpawnCount; currentCount += spawnCountIncrement)
+        foreach( int currentCount  in spawnCountList)
         {
             Random.InitState(randomSeed);
 
