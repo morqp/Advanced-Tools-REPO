@@ -363,8 +363,8 @@ MonoBehaviour:
   maximumSpawnCount: 5000
   spawnCountIncrement: 250
   extraSpawnCounts: 70170000581b0000401f00002823000010270000
-  spawnAreaMin: {x: -20, y: 1, z: -20}
-  spawnAreaMax: {x: 20, y: 10, z: 20}
+  spawnAreaMin: {x: -10, y: 1, z: -10}
+  spawnAreaMax: {x: 10, y: 10, z: 10}
   warmupDuration: 3
   measurementDuration: 10
   csvFileName: static_concavecol_result.csv
@@ -565,9 +565,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3199816213832998278, guid: 079c706273d9bd84f8363bcd06f21a3f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00000025544844
+      objectReference: {fileID: 0}
+    - target: {fileID: 3199816213832998278, guid: 079c706273d9bd84f8363bcd06f21a3f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.8571434
+      objectReference: {fileID: 0}
     - target: {fileID: 7296063564840734250, guid: 079c706273d9bd84f8363bcd06f21a3f, type: 3}
       propertyPath: m_Name
       value: box
+      objectReference: {fileID: 0}
+    - target: {fileID: 7808943298948442093, guid: 079c706273d9bd84f8363bcd06f21a3f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.857143
+      objectReference: {fileID: 0}
+    - target: {fileID: 7900474466273988253, guid: 079c706273d9bd84f8363bcd06f21a3f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00000025544844
+      objectReference: {fileID: 0}
+    - target: {fileID: 7900474466273988253, guid: 079c706273d9bd84f8363bcd06f21a3f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.8571432
+      objectReference: {fileID: 0}
+    - target: {fileID: 8109972435372430120, guid: 079c706273d9bd84f8363bcd06f21a3f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.857143
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
