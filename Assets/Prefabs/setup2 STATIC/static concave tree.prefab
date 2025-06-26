@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 5495791905645877111}
   - component: {fileID: 2764470966716834012}
   - component: {fileID: 7456679232014173812}
+  - component: {fileID: -3717944223000245245}
   m_Layer: 0
   m_Name: static concave tree
-  m_TagString: Untagged
+  m_TagString: Tree
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,3 +110,15 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 811424468950150501, guid: 6c7eaede4efc960409fb9ef2dfb77f29, type: 3}
+--- !u!114 &-3717944223000245245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7132649088676902260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 153345a1ec4486446b6bca097f8d0505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

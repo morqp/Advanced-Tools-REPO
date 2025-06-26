@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 2764470966716834012}
   - component: {fileID: 7456679232014173812}
   - component: {fileID: 7553357647823030088}
+  - component: {fileID: 8470354767549352329}
   m_Layer: 0
   m_Name: kinematic dynamic tree
-  m_TagString: Untagged
+  m_TagString: Tree
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -137,3 +138,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &8470354767549352329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7132649088676902260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 153345a1ec4486446b6bca097f8d0505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

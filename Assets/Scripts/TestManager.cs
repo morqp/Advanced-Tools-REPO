@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine.VFX;
 using static UnityEngine.EventSystems.EventTrigger;
 
-public class DynamicCollisionTestManager : MonoBehaviour
+public class TestManager : MonoBehaviour
 {
     [Header("random seed for reproducibility")]
     public int randomSeed = 12345;
@@ -71,7 +71,7 @@ public class DynamicCollisionTestManager : MonoBehaviour
             Random.InitState(randomSeed);
 
             SpawnTestObjects(currentCount);
-            Debug.Log("starting test for " + currentCount + " instances");
+            Debug.Log("starting test for  " + currentCount + "  instances");
 
             // warming up
             yield return new WaitForSeconds(warmupDuration);
@@ -99,13 +99,13 @@ public class DynamicCollisionTestManager : MonoBehaviour
             float averageDeltaTime = frameTimeList.Average();
             int totalChecks = collisionCountList.Sum();
             WriteCsvLine(testPrefab.name, currentCount, averageDeltaTime, totalChecks);
-            Debug.Log("logged result for " + currentCount + " instances");
+            Debug.Log("logged result for  " + currentCount + "  instances");
 
             CleanupTestObjects();
             yield return null;
         }
 
-        Debug.Log("all dynamic tests complete. results at: " + csvFilePath);
+        Debug.Log("all tests complete. results at: " + csvFilePath);
     }
 
     private void SpawnTestObjects(int numberToSpawn)
